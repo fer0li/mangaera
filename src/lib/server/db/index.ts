@@ -6,7 +6,7 @@ import {
 	POSTGRES_USER,
 	POSTGRES_PASSWORD,
 	POSTGRES_DB,
-  NODE_ENV
+	NODE_ENV
 } from '$env/static/private';
 
 if (!POSTGRES_HOST || !POSTGRES_PORT || !POSTGRES_USER || !POSTGRES_PASSWORD || !POSTGRES_DB)
@@ -20,7 +20,7 @@ const dbConnect = () => {
 			user: POSTGRES_USER,
 			password: POSTGRES_PASSWORD,
 			database: POSTGRES_DB,
-      ssl: NODE_ENV === "development" ? false : true
+			ssl: NODE_ENV === 'development' ? false : true
 		});
 
 		return drizzle(client);
