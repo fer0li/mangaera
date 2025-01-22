@@ -1,11 +1,28 @@
 import { defineConfig } from 'drizzle-kit';
-if (!process.env.DATABASE_URL) throw new Error('DATABASE_URL is not set');
+
+const { POSTGRES_HOST, POSTGRES_PORT, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, NODE_ENV } =
+	process.env;
+
+if (!POSTGRES_HOST || !POSTGRES_PORT || !POSTGRES_USER || !POSTGRES_PASSWORD || !POSTGRES_DB)
+	throw new Error('Postgres settings is not set');
 
 export default defineConfig({
 	schema: './src/lib/server/db/schema.ts',
+	out: './.drizzle-out',
 
 	dbCredentials: {
-		url: process.env.DATABASE_URL
+		host: POSTGRES_HOST,
+		port: Number(POSTGRES_PORT),
+		user: POSTGRES_USER,
+		password: POSTGRES_PASSWORD,
+		database: POSTGRES_DB,
+		ssl: NODE_ENV === 'development' ? false : true
+	},
+
+	entities: {
+		roles: {
+			provider: 'neon'
+		}
 	},
 
 	verbose: true,
